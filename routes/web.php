@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ClassSubjectController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,13 +69,25 @@ Route::group(['middleware' => 'admin'], function() {
     Route::get('admin/assign_subject/edit_single/{id}', [ClassSubjectController::class,'edit_single']);
     Route::post('admin/assign_subject/edit_single/{id}', [ClassSubjectController::class,'update_single']);
 
+    //admin/change password
+    Route::get('admin/change_password', [UserController::class,'change_password']);
+    Route::post('admin/change_password', [UserController::class,'change_password']);
+
 });
 
 Route::group(['middleware' => 'teacher'], function() {
     Route::get('teacher/dashboard', [DashboardController::class,'dashboard']);
+
+    Route::get('teacher/change_password', [UserController::class,'change_password']);
+    Route::post('teacher/change_password', [UserController::class,'change_password']);
+
 });
 Route::group(['middleware' => 'student'], function() {
     Route::get('student/dashboard', [DashboardController::class,'dashboard']);
+
+    Route::get('student/change_password', [UserController::class,'change_password']);
+    Route::post('student/change_password', [UserController::class,'change_password']);
+
 });
 
 
