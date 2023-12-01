@@ -8,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Add New Course</h1>
+            <h1>Change Password</h1>
           </div>
 
         </div>
@@ -19,29 +19,27 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <!-- left column -->
+
           <div class="col-md-12">
+          @include('_message')
             <div class="card card-primary">
               <form method="post" action="">
                 {{ csrf_field() }}
                 <div class="card-body">
                 <div class="form-group">
-                    <label>Course Name</label>
-                    <input type="text" class="form-control" name="name" required placeholder="Course Name">
+                    <label>Old Password</label>
+                    <input type="password" class="form-control" name="old_password" required placeholder="Old Password">
                   </div>
                   <div class="form-group">
-                    <label>Status</label>
-                    <select class="form-control" name="status">
-                        <option value="0">Active</option>
-                        <option value="1">Inactive</option>
-                    </select>
+                    <label>New Password</label>
+                    <input type="password" class="form-control" name="new_password" required placeholder="New Password">
                   </div>
 
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Update</button>
                 </div>
               </form>
             </div>
