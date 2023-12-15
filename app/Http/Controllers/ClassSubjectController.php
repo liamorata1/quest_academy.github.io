@@ -136,7 +136,7 @@ class ClassSubjectController extends Controller
         }
     }
 
-    public function update_single(Request $request, $id)
+    public function update_single($id, Request $request)
     {
 
 
@@ -152,7 +152,7 @@ class ClassSubjectController extends Controller
                 }
                 else
                 {
-                    $save = new ClassSubjectModel;
+                    $save = ClassSubjectModel::getSingle($id);
                     $save->class_id = $request->class_id;
                     $save->subject_id = $request->subject_id;
                     $save->status = $request->status;

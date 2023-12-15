@@ -31,19 +31,19 @@
               <form method="get" action="">
                 <div class="card-body">
                 <div class="row">
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label>Name</label>
                     <input type="text" class="form-control" name="name" value="{{ Request::get('name') }}" placeholder="Name">
                   </div>
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-2">
                     <label>Email</label>
                     <input type="text" class="form-control" name="email" value="{{ Request::get('email') }}" placeholder="Email">
                   </div>
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-2">
                     <label>Date</label>
                     <input type="date" class="form-control" name="date" value="{{ Request::get('date') }}" placeholder="Date">
                   </div>
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-2">
                     <button class="btn btn-primary" type="submit" style="margin-top: 31px;">Search</button>
                     <a href="{{ url('admin/admin/list') }}" class="btn btn-success" style="margin-top: 31px;">Reset</a>
                   </div>
@@ -77,9 +77,9 @@
                     <td>{{ $value->name }}</td>
                     <td>{{ $value->email }}</td>
                     <td>{{ date('d-m-Y H:i A', strtotime ($value->created_at)) }}</td>
-                    <td>
-                      <a href="{{ url('admin/admin/edit/'.$value->id) }}" class="btn btn-primary">Edit</a>
-                      <a href="{{ url('admin/admin/delete/'.$value->id) }}" class="btn btn-danger">Delete</a>
+                    <td style="min-width: 150px">
+                      <a href="{{ url('admin/admin/edit/'.$value->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                      <a href="{{ url('admin/admin/delete/'.$value->id) }}" class="btn btn-danger btn-sm">Delete</a>
                     </td>
                    </tr>
                    @endforeach

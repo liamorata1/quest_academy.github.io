@@ -8,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Course List</h1>
+            <h1>Course List (Total :{{ $getRecord->total() }}) </h1>
           </div>
         <div class="col-sm-6" style="text-align: right;">
           <a href="{{ url('admin/class/add') }}" class="btn btn-primary">Add New Course</a>
@@ -31,12 +31,12 @@
               <form method="get" action="">
                 <div class="card-body">
                 <div class="row">
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label>Name</label>
                     <input type="text" class="form-control" name="name" value="{{ Request::get('name') }}" placeholder="Name">
                   </div>
 
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-2">
                     <label>Date</label>
                     <input type="date" class="form-control" name="date" value="{{ Request::get('date') }}" placeholder="Date">
                   </div>
@@ -82,9 +82,9 @@
                         </td>
                         <td>{{ $value->created_by_name }}</td>
                         <td>{{ date('d-m-Y H:i A', strtotime($value->created_at)) }}</td>
-                        <td>
-                        <a href="{{ url('admin/class/edit/'.$value->id) }}" class="btn btn-primary">Edit</a>
-                        <a href="{{ url('admin/class/delete/'.$value->id) }}" class="btn btn-danger">Delete</a>
+                        <td style="min-width: 150px">
+                        <a href="{{ url('admin/class/edit/'.$value->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{{ url('admin/class/delete/'.$value->id) }}" class="btn btn-danger btn-sm">Delete</a>
                         </td>
                     </tr>
                     @endforeach

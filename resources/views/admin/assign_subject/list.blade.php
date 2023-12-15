@@ -8,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Assigned Subject List</h1>
+            <h1>Assigned Subject List (Total :{{ $getRecord->total() }}) </h1>
           </div>
         <div class="col-sm-6" style="text-align: right;">
           <a href="{{ url('admin/assign_subject/add') }}" class="btn btn-primary">Add New Assign Subject</a>
@@ -31,21 +31,21 @@
               <form method="get" action="">
                 <div class="card-body">
                 <div class="row">
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label>Course Name</label>
                     <input type="text" class="form-control" name="class_name" value="{{ Request::get('class_name') }}" placeholder="Course Name">
                   </div>
 
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-2">
                     <label>Subject Name</label>
                     <input type="text" class="form-control" name="subject_name" value="{{ Request::get('subject_name') }}" placeholder="Subject Name">
                   </div>
 
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-2">
                     <label>Date</label>
                     <input type="date" class="form-control" name="date" value="{{ Request::get('date') }}" placeholder="Date">
                   </div>
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-2">
                     <button class="btn btn-primary" type="submit" style="margin-top: 31px;">Search</button>
                     <a href="{{ url('admin/assign_subject/list') }}" class="btn btn-success" style="margin-top: 31px;">Reset</a>
                   </div>
@@ -90,10 +90,10 @@
                         </td>
                         <td>{{ $value->created_by_name }}</td>
                         <td>{{ date('d-m-Y H:i A', strtotime($value->created_at)) }}</td>
-                        <td>
-                        <a href="{{ url('admin/assign_subject/edit/'.$value->id) }}" class="btn btn-primary">Edit</a>
-                        <a href="{{ url('admin/assign_subject/edit_single/'.$value->id) }}" class="btn btn-primary">Edit Single</a>
-                        <a href="{{ url('admin/assign_subject/delete/'.$value->id) }}" class="btn btn-danger">Delete</a>
+                        <td style="min-width: 150px">
+                        <a href="{{ url('admin/assign_subject/edit/'.$value->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{{ url('admin/assign_subject/edit_single/'.$value->id) }}" class="btn btn-primary btn-sm">Edit Single</a>
+                        <a href="{{ url('admin/assign_subject/delete/'.$value->id) }}" class="btn btn-danger btn-sm">Delete</a>
                         </td>
                     </tr>
                     @endforeach

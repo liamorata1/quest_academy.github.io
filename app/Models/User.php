@@ -48,6 +48,16 @@ class User extends Authenticatable
         return self::find($id);
     }
 
+    public static function getTotalUser($user_type)
+{
+    $count = self::where('user_type', '=', $user_type)
+                  ->where('is_delete', '=', 0)
+                  ->count();
+
+    return $count;
+}
+
+
     static public function getAdmin()
     {
         $return = self::select('users.*')
@@ -75,11 +85,48 @@ class User extends Authenticatable
 
     static public function getStudent()
     {
-        $return = self::select('users.*')
+        $return = self::select('users.*', 'class.name as class_name')
+                        ->join('class', 'class.id', '=', 'users.class_id', 'left')
                         ->where('users.user_type', '=', 3)
                         ->where('users.is_delete', '=', 0);
+                        if(!empty(Request::get('name')))
+                        {
+                           $return = $return->where('users.name','like', '%'.Request::get('name'). '%');
+                        }
+                        if(!empty(Request::get('last_name')))
+                        {
+                           $return = $return->where('users.last_name','like', '%'.Request::get('last_name'). '%');
+                        }
+                        if(!empty(Request::get('email')))
+                        {
+                           $return = $return->where('users.email','like', '%'.Request::get('email'). '%');
+                        }
+                        if(!empty(Request::get('student_number')))
+                        {
+                           $return = $return->where('users.student_number','like', '%'.Request::get('student_number'). '%');
+                        }
+                        if(!empty(Request::get('class')))
+                        {
+                           $return = $return->where('class.name','like', '%'.Request::get('class'). '%');
+                        }
+                        if(!empty(Request::get('gender')))
+                        {
+                            $return = $return->where('users.gender','=',Request::get('gender'));
+                        }
+                        if(!empty(Request::get('date')))
+                        {
+                           $return = $return->whereDate('users.created_at','=', Request::get('date'));
+                        }
+                        if(!empty(Request::get('status')))
+                        {
+                            $status = (Request::get('status') == 100) ? 0 : 1;
+                           $return = $return->where('users.status','=', $status);
+                        }
+                        
         $return = $return->orderBy('users.id', 'desc')
-                        ->paginate(10);
+                         ->paginate(10);
+                        
+
 
         return $return;
     }
@@ -92,6 +139,108 @@ class User extends Authenticatable
     static public function getTokenSingle($remember_token)
     {
         return User::where('remember_token', '=', $remember_token)->first();
+    }
+
+    public function getProfile()
+    {
+        if(!empty($this->profile_pic) && file_exists('upload/profile/' .$this->profile_pic))
+        {
+            return url('upload/profile/' .$this->profile_pic);
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    static public function getTeacher()
+    {
+        $return = self::select('users.*')
+                        ->where('user_type', '=', 2)
+                        ->where('is_delete', '=', 0);
+                        if(!empty(Request::get('name')))
+                        {
+                           $return = $return->where('users.name','like', '%'.Request::get('name'). '%');
+                        }
+                        if(!empty(Request::get('last_name')))
+                        {
+                           $return = $return->where('users.last_name','like', '%'.Request::get('last_name'). '%');
+                        }
+                        if(!empty(Request::get('email')))
+                        {
+                           $return = $return->where('users.email','like', '%'.Request::get('email'). '%');
+                        }
+                        if(!empty(Request::get('gender')))
+                        {
+                           $return = $return->where('users.gender','=',Request::get('gender'));
+                        }
+                        if(!empty(Request::get('date')))
+                        {
+                           $return = $return->whereDate('created_at','=', Request::get('date'));
+                        }
+                        if(!empty(Request::get('status')))
+                        {
+                            $status = (Request::get('status') == 100) ? 0 : 1;
+                           $return = $return->where('users.status','=', $status);
+                        }
+                        
+        $return = $return->orderBy('users.id', 'desc')
+                        ->paginate(10);
+
+        return $return;
+    }
+
+        static public function getTeacherClass()
+    {
+        $return = self::select('users.*')
+                        ->where('user_type', '=', 2)
+                        ->where('is_delete', '=', 0);
+                        
+                        
+        $return = $return->orderBy('users.id', 'desc')
+                        ->get();
+
+        return $return;
+    }
+
+    static public function getTeacherStudent($teacher_id)
+    {
+        $return = self::select('users.*', 'class.name as class_name')
+                        ->join('class', 'class.id', '=', 'users.class_id',)
+                        ->join('assign_class_teacher', 'assign_class_teacher.class_id', '=', 'class.id',)
+                        ->where('assign_class_teacher.teacher_id', '=', $teacher_id)
+                        ->where('assign_class_teacher.status', '=', 0)
+                        ->where('assign_class_teacher.is_delete', '=', 0)
+                        ->where('users.user_type', '=', 3)
+                        ->where('users.is_delete', '=', 0);
+                      
+                        
+        $return = $return->orderBy('users.id', 'desc')
+                         ->groupBy('users.id')
+                         ->paginate(10);
+
+        return $return;
+                         
+    }
+
+    static public function getTeacherStudentCount($teacher_id)
+    {
+        $return = self::select('users.id')
+                        ->join('class', 'class.id', '=', 'users.class_id',)
+                        ->join('assign_class_teacher', 'assign_class_teacher.class_id', '=', 'class.id',)
+                        ->where('assign_class_teacher.teacher_id', '=', $teacher_id)
+                        ->where('assign_class_teacher.status', '=', 0)
+                        ->where('assign_class_teacher.is_delete', '=', 0)
+                        ->where('users.user_type', '=', 3)
+                        ->where('users.is_delete', '=', 0)
+                      
+                        
+                         ->orderBy('users.id', 'desc')
+                         ->groupBy('users.id')
+                         ->count();
+
+        return $return;
+                         
     }
 
 }
